@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd"
+	xml:lang="da" lang="da">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<wicket:border>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="mainLayout">
+		<!-- <tr>
+			<td>
+			<div class="topLeft">&nbsp;</div>
+			</td>
+			<td>&nbsp;</td>
+		</tr> -->
+		<tr valign="top">
+			<td valign="top" width="20%">
+				<div id="left_part">
+				<div class="menu">
+				<div class="element_header"><h3><span wicket:id="labelWorkspace"></span></h3></div>
+				<!-- <div class="title_back"> -->
+					<table width="200" border="0" cellpadding="4" cellspacing="0">
+					
+						<ul id="navigation" wicket:id="pMenu" />
+					 
+					</table>
+				</div>
+				</div>
+			</td>
+			<td align="left" valign="top">
+				<!-- <div class="box"> -->
+				<div class="center_part" width="80%">
+					<wicket:body />
+				</div>
+			</td>
+		</tr>
+		<!-- <tr>
+			<td><div class="bottomLeft">&nbsp;</div></td>
+			<td>&nbsp;</td>
+		</tr> -->
+		
+		<span wicket:id="menuPanel" />
+
+	</table>
+</wicket:border>
+</body>
+</html>

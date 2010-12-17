@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="sgu-alumni" default="all" basedir=".">
+	
+	<property name="app.name" value="sgu-alumni" />
+	<property name="app.package" value="id.ac.sgu" />
+	<property name="app.path" value="/${app.name}" />
+	<property name="app.version" value="1.0" />
+	<property name="build.home" value="${basedir}/build" />
+    <property name="jetty.home" value="D:\\Editor\\jetty-6.1.18" />
+	<property name="dist.home" value="${basedir}/dist" />
+	<property name="docs.home" value="${basedir}/docs" />
+	<property name="src.home" value="${basedir}/src" />
+	<property name="web.home" value="${basedir}/web" />
+	<property name="lib.home" value="${web.home}/WEB-INF/lib" />
+	<property name="lib.dist.home" value="${dist.home}/lib" />
+	<property name="copy.dist.home" value="${jetty.home}/webapps/${app.name}" />
+
+	<property name="compile.fork" value="true" />	
+	<property name="compile.debug" value="true" />
+	<property name="compile.deprecation" value="false" />
+	<property name="compile.optimize" value="true" />
+	<property name="compile.initmemory" value="256m" />	
+	<property name="compile.maxmemory" value="256m" />	
+
+	<!-- this would enable passing in the command to execute for ant from commandline -->
+	<!-- cmd1 is used to give argument to RUN command -->
+	<!-- cmd2 is used to give completion to main class for testing purpose -->
+	<!-- usage: ant -Dcmd1=2 -Dcmd2=3 -Dcmd3=4 -Dclassname=accounting.TestDatabase run -->
+	<!-- ant -Dcmd1=2 -Dcmd2=3 -Dcmd3=7 -Dcmd4=excel-file.xls -Dclassname=accounting.TestExtractExcel compile dist run-->
+	<property name="cmd1" value=""/>
+	<property name="cmd2" value=""/>
+	<property name="cmd3" value=""/>
+	<property name="cmd4" value=""/>
+	<property name="classname" value=""/>
+		
+	<path id="compile.classpath">
+		<pathelement location="${jetty.home}/lib" />
+		<fileset dir="${jetty.home}/lib">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="${lib.home}" />
+		<fileset dir="${lib.home}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<filelist id="dist_jars" dir="${lib.dist.home}">
+			<file name="datedFileAppender-1.0.2.jar" />
+			<file name="log4j-1.2.15.jar" />
+			<file name="slf4j-api-1.5.1.jar" />
+			<file name="slf4j-log4j12-1.5.1.jar" />
+			<file name="spring-2.5.jar" />
+			<file name="commons-logging-1.1.1.jar" />
+			<file name="wicket-1.4.9.jar" />
+			<file name="wicket-auth-roles-1.4.9.jar" />
+			<file name="wicket-datetime-1.4.9.jar" />
+			<file name="wicket-devutils-1.4.9.jar" />
+			<file name="wicket-extensions-1.4.9.jar" />
+			<file name="wicket-guice-1.4.9.jar" />
+			<file name="wicket-ioc-1.4.9.jar" />
+			<file name="wicket-jmx-1.4.9.jar" />
+			<file name="wicket-objectsizeof-agent-1.4.9.jar" />
+			<file name="wicket-spring-1.4.9.jar" />
+	</filelist>
+
+	<target name="compile" depends="prepare" description="Compile Java sources">
+		<javac fork="${compile.fork}" srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" 
+			debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}" 
+			memoryinitialsize="${compile.initmemory}" 
+			memorymaximumsize="${compile.maxmemory}">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<target name="dist" description="Create binary distribution">
+		<copy todir="${lib.dist.home}">
+			<fileset dir="${lib.home}" />
+		</copy>
+		<pathconvert property="jar.classpath2" pathsep=" ">
+				    <mapper>
+				      <chainedmapper>
+					    <!-- remove absolute path -->
+				        <flattenmapper />
+				        <!-- add lib/ prefix -->
+				        <globmapper from="*" to="*" />
+				      </chainedmapper>
+				    </mapper>
+			    	<path>
+				  	<!-- lib.home contains all jar files, in several subdirectories -->
+			    		<filelist refid="dist_jars" />
+					</path>
+		</pathconvert>
+		<echo>== Going to JAR ==</echo>
+		<tstamp>
+			<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+		<jar jarfile="${lib.dist.home}/${app.name}.jar" basedir="${build.home}/WEB-INF/classes" compress="true">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Main-Class" value="${app.package}.test.${classname}" />
+				<attribute name="Class-Path" value="${app.name}.jar ${jar.classpath2}" />
+	      		<attribute name="Implementation-Version" value="${app.version}"/> 
+				<attribute name="Build-Date" value="${TODAY}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="copyDist" description="Copy binary distribution">
+		<echo>== Going to COPY ==</echo>
+		<copy todir="${copy.dist.home}/WEB-INF/lib/">
+			<fileset dir="${lib.home}" />
+		</copy>
+		<copy todir="${copy.dist.home}">
+			<fileset dir="${build.home}" />
+		</copy>
+	</target>
+
+	<target name="war">
+		<war destfile="${dist.home}/${app.name}.war" compress="yes" basedir="${build.home}">
+			<lib dir="${lib.dist.home}"/>
+		</war>
+	</target>
+
+	<target name="run">
+		<java jar="${lib.dist.home}/${app.name}.jar" fork="true">
+			<arg value="${cmd1}" />
+			<arg value="${cmd2}" />
+			<arg value="${cmd3}" />
+			<arg value="${cmd4}" />
+			<classpath refid="compile.classpath" />
+		</java>
+	</target>
+				
+	<target name="javadoc" depends="compile" description="Create Javadoc API documentation">
+		<mkdir dir="${dist.home}/docs/api" />
+		<javadoc sourcepath="${src.home}" destdir="${dist.home}/docs/api" packagenames="*">
+			<classpath refid="compile.classpath" />
+		</javadoc>
+	</target>
+
+	<target name="prepare" >
+		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.home}/WEB-INF" />
+		<mkdir dir="${build.home}/WEB-INF/lib" />
+		<mkdir dir="${build.home}/WEB-INF/classes" />
+		<mkdir dir="${dist.home}" />
+	    <mkdir dir="${lib.dist.home}" />
+		<mkdir dir="${copy.dist.home}" />
+		<copy includeemptydirs="true" todir="${build.home}">
+			<fileset dir="${web.home}" excludes="**/*.jar" />
+		</copy>
+		<copy todir="${build.home}/WEB-INF/classes">
+			<fileset dir="${src.home}" excludes="**/*.java"/>
+		</copy>
+	</target>
+
+	<target name="all" depends="clean,compile,dist,copyDist" description="Clean build and dist directories, then compile" />
+
+	<target name="clean" description="Delete old build and dist directories">
+		<delete dir="${build.home}" />
+		<delete dir="${dist.home}" />
+		<delete dir="${copy.dist.home}" />
+	</target>
+
+</project>

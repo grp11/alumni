@@ -1,0 +1,129 @@
+<html>
+<head>
+<title>Registration</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<style>
+body {
+	background-image: none;
+}
+</style>
+</head>
+<body>
+<wicket:extend>
+	<form wicket:id="registrationForm"><!-- <div id="main" align="center"> -->
+	<div id="center_part" align="center"
+		style="margin-top: 50pt; margin-left: 30%;">
+	<table align="center">
+		<tr><td>
+		Create new user</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+			<div wicket:id="feedbackPanel" class="error" />
+			</td>
+		</tr>
+		<tr>
+			<td>Desired username</td>
+			<td><input type="text" maxlength="10" wicket:id="username" /></td>
+		</tr>
+
+		<tr>
+			<td>Password</td>
+			<td><input type="password" maxlength="20" wicket:id="password" />
+			</td>
+		</tr>
+
+		<tr>
+			<td>Repeat password</td>
+			<td><input type="password" maxlength="20"
+				wicket:id="repeatPassword" /></td>
+		</tr>
+
+		<tr>
+			<td>First name</td>
+			<td><input type="text" maxlength="20" wicket:id="firstName" /></td>
+		</tr>
+
+		<tr>
+			<td>Last name</td>
+			<td><input type="text" maxlength="20" wicket:id="lastName" /></td>
+		</tr>
+
+		<tr>
+			<td>Gender</td>
+			<td><select wicket:id="gender"></select></td>
+		</tr>
+
+		<tr>
+			<td>Birthday</td>
+			<td><input type="text" /></td>
+		</tr>
+
+		<tr>
+			<td>Address</td>
+			<td><input type="area" maxlength="250" wicket:id="address" /></td>
+		</tr>
+
+		<tr>
+			<td>Country</td>
+			<td><input type="text" /></td>
+		</tr>
+
+		<tr>
+			<td>City</td>
+			<td><input type="text" /></td>
+		</tr>
+
+		<tr>
+			<td>ZIP</td>
+			<td><input type="text" maxlength="5" wicket:id="ZIP" /></td>
+		</tr>
+
+		<tr>
+			<td>Batch</td>
+			<td><input type="text" /></td>
+		</tr>
+
+
+		<tr>
+			<td>Department</td>
+			<td><input type="text" /></td>
+		</tr>
+
+		<tr>
+			<td>Faculty</td>
+			<td><input type="text" /></td>
+		</tr>
+
+		<tr>
+			<td>Home phone</td>
+			<td><input type="text" maxlength="15" wicket:id="telephone" /></td>
+		</tr>
+
+		<tr>
+			<td>Handphone</td>
+			<td><input type="text" maxlength="15" wicket:id="handphone" />
+			</td>
+		</tr>
+
+		<tr>
+			<td>Email</td>
+			<td><input type="text" maxlength="20" wicket:id="email" /></td>
+		</tr>
+
+		<tr>
+			<td><input type="button" value="Cancel" wicket:id="btnCancel" />
+			</td>
+			<td><input type="submit" value="Register" wicket:id="btnSubmit" />
+			</td>
+		</tr>
+		<tr>
+			<td><a href="" wicket:id="btnLogin" >Already registered?</a>
+			</td>
+		</tr>
+	</table>
+	</div>
+	</form>
+</wicket:extend>
+</body>
+</html>

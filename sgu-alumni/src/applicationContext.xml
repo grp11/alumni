@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "spring-beans-2.0.dtd" >
+
+<beans>
+
+	<!-- BEGIN DAO -->
+	<!-- Base DAOs -->
+	<bean id="departmentDAOBean" class="id.ac.sgu.dao.base.DepartmentDAO"/>
+	<bean id="userDAOBean" class="id.ac.sgu.dao.base.UserDAO"/>
+	<bean id="cityDAOBean" class="id.ac.sgu.dao.base.CityDAO"/>
+	<bean id="countryDAOBean" class="id.ac.sgu.dao.base.CountryDAO"/>
+
+	<bean id="facultyDAOBean" class="id.ac.sgu.dao.base.FacultyDAO"/>
+	<bean id="batchDAOBean" class="id.ac.sgu.dao.base.BatchDAO"/>
+	<bean id="commentDAOBean" class="id.ac.sgu.dao.base.CommentDAO"/>
+
+	<bean id="loginDAOBean" class="id.ac.sgu.dao.login.LoginDAO"/>
+	<!-- End - Base DAOs -->
+
+	<!-- DAO Locator -->
+	<bean id="daoLocatorBean" class="id.ac.sgu.utility.factory.DAOLocator">
+		<property name="userDAO" ref="userDAOBean"/>
+		<property name="departmentDAO" ref="departmentDAOBean"/>
+		<property name="facultyDAO" ref="facultyDAOBean"/>
+		<property name="batchDAO" ref="batchDAOBean"/>
+		<property name="commentDAO" ref="commentDAOBean"/>
+		<property name="countryDAO" ref="countryDAOBean"/>
+		<property name="cityDAO" ref="cityDAOBean"/>
+
+		<property name="loginDAO" ref="loginDAOBean"/>
+	</bean>
+	<!-- END DAO -->
+
+	<!-- BEGIN BL -->
+	<!-- Base BLs -->
+	<bean id="userBLBean" class="id.ac.sgu.bl.base.UserBL">
+		<property name="daoLocator" ref="daoLocatorBean"/>
+	</bean>
+	<bean id="cityBLBean" class="id.ac.sgu.bl.base.CityBL">
+		<property name="daoLocator" ref="daoLocatorBean"/>
+	</bean>
+	<bean id="countryBLBean" class="id.ac.sgu.bl.base.CountryBL">
+		<property name="daoLocator" ref="daoLocatorBean"/>
+	</bean>
+	<bean id="commentBLBean" class="id.ac.sgu.bl.base.CommentBL">
+		<property name="daoLocator" ref="daoLocatorBean"/>
+	</bean>
+	<bean id="departmentBLBean" class="id.ac.sgu.bl.base.DepartmentBL">
+		<property name="daoLocator" ref="daoLocatorBean"/>
+	</bean>
+	<bean id="facultyBLBean" class="id.ac.sgu.bl.base.FacultyBL">
+		<property name="daoLocator" ref="daoLocatorBean"/>
+	</bean>
+		<bean id="batchBLBean" class="id.ac.sgu.bl.base.BatchBL">
+		<property name="daoLocator" ref="daoLocatorBean"/>
+	</bean>
+
+	<bean id="loginBLBean" class="id.ac.sgu.bl.login.LoginBL">
+		<property name="daoLocator" ref="daoLocatorBean"/>
+	</bean>
+	<!-- End - Base BLs -->
+
+	<!-- BL Locator -->
+	<bean id="blLocatorBean" class="id.ac.sgu.utility.factory.BLLocator">
+		<property name="userBL" ref="userBLBean"/>
+		<property name="departmentBL" ref="departmentBLBean"/>
+		<property name="facultyBL" ref="facultyBLBean"/>
+		<property name="batchBL" ref="batchBLBean"/>
+		<property name="countryBL" ref="countryBLBean"/>
+		<property name="cityBL" ref="cityBLBean"/>
+		<property name="commentBL" ref="commentBLBean"/>
+
+		<property name="loginBL" ref="loginBLBean"/>
+	</bean>
+	<!-- END BL -->
+
+	<!-- Base Services -->
+	<bean id="loginServiceBean" class="id.ac.sgu.utility.login.LoginService" >
+		<property name="loginDAO" ref="loginDAOBean"/>
+		<property name="loginBL" ref="loginBLBean"/>
+	</bean>
+
+	<bean id="alumniServiceBean" class="id.ac.sgu.utility.service.AlumniService" >
+		<property name="departmentDAO" ref="departmentDAOBean"/>
+		<property name="departmentBL" ref="departmentBLBean"/>
+
+		<property name="batchDAO" ref="batchDAOBean"/>
+		<property name="batchBL" ref="batchBLBean"/>
+
+		<property name="facultyDAO" ref="facultyDAOBean"/>
+		<property name="facultyBL" ref="facultyBLBean"/>
+	</bean>
+	<bean id="userServiceBean" class="id.ac.sgu.utility.service.UserService" >
+		<property name="cityDAO" ref="cityDAOBean"/>
+		<property name="cityBL" ref="cityBLBean"/>
+
+		<property name="countryDAO" ref="countryDAOBean"/>
+		<property name="countryBL" ref="countryBLBean"/>
+
+		<property name="userDAO" ref="userDAOBean"/>
+		<property name="userBL" ref="userBLBean"/>
+	</bean>
+
+	<bean id="BaseApplication" class="id.ac.sgu.base.BaseApplication" scope="singleton" />
+
+</beans>

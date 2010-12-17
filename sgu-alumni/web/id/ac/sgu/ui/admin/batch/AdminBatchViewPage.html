@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Pencarian Alumni Tahun</title>
+</head>
+<body>
+<wicket:extend>
+	<span wicket:id="navigationBorder">
+	<form wicket:id="adminBatchViewForm">
+	<table width="100%" border="0" cellpadding="1" cellspacing="1">
+		<tr>
+			<td colspan="6">&nbsp;</td>
+		</tr>
+		<tr>
+			<td width="10">&nbsp;</td>
+			<td colspan="4"><strong>Pencarian Departemen dan Faculty</strong></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<hr />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<div wicket:id="feedbackPanel" class="feedback" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Batch</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <select
+						wicket:id="batchYear" /> </label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6"><span wicket:id="navigator" />
+			<table border="1" width="30%" cellpadding="3" cellspacing="0"
+				class="viewTable" wicket:id="dataContainer">
+				<tr>
+					<th>Batch ID</th>
+					<th>Batch year</th>
+					<th>Department Name</th>
+					<th>Faculty Name</th>
+				</tr>
+				<tr wicket:id="batchDataView">
+					<td align="center"><label wicket:id="lblBatchId" /></td>
+					<td align="center"><label wicket:id="lblBatchYear" /></td>
+					<td align="center"><label wicket:id="lblDepartmentName" /></td>
+					<td align="center"><label wicket:id="lblFacultyName" /></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td colspan="4">
+			<input type="submit" value="Cari"
+				class="button" wicket:id="btnCancel" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="6">&nbsp;</td>
+		</tr>
+	</table>
+	</form>
+	</span>
+</wicket:extend>
+</body>
+</html>

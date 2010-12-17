@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>Sign In</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <style>
+    	body { background-image: none; }
+    </style>
+</head>
+<body>
+<wicket:extend>
+	<form wicket:id="loginForm">
+	<!-- <div id="main" align="center"> -->
+	<div id="center_part" align="center" style="margin-top: 50pt; margin-left: 30%;">
+		<table align="center">
+			<tr>
+				<td colspan=3 align="center">
+					<h4>Login to Account</h4>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+			<tr>
+				<td><wicket:message key="username"/></td>
+				<td>:</td>
+				<td align="right"><input type="text" class="textbox" size="35" id="code" wicket:id="username" maxlength="24" /></td>
+			</tr>
+			<tr>
+				<td><wicket:message key="password"/></td>
+				<td>:</td>
+				<td align="right"><input type="password" class="textbox" size="35" id="password" wicket:id="password" maxlength="20" /></td>
+			</tr>
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+			<tr>
+				<td align="right" colspan="3">
+					<input type="submit" class="button" value="Login" wicket:id="loginButton"></input>
+				</td>
+			</tr>
+			<tr>
+				<td align="right" colspan="3">
+					<input type="button" class="button" value="Register" wicket:id="registerButton"></input>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3"><div wicket:id="feedbackPanel" class="error"/></td>
+			</tr>
+		</table>
+	</div>
+	</form>
+</wicket:extend>
+</body>
+</html>
