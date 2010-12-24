@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Result</title>
+	</head>
+	<body>
+		<wicket:extend>
+			<span wicket:id="navigationBorder">
+				<form wicket:id="resultForm">
+					<span wicket:id="feedbackPanel" />
+					<table width="100%">
+						<tr>
+							<td colspan="2">
+							<div id="ok">
+								<div>
+									<h1> Successfully </h1>
+	      						</div>
+	      						<!-- <span wicket:id="feedbackPanel" /> -->
+      						</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<span wicket:id="genNum">[Generic Number]</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="submit" wicket:id="btnBack" class="button" value="Ulang Lagi" />&nbsp;
+								<input type="submit" wicket:id="btnMainPage" class="button" value="Halaman Utama" />
+							</td>
+							<td>&nbsp;</td>
+						</tr>
+					</table>
+				</form>
+			</span>
+		</wicket:extend>
+	</body>
+</html>

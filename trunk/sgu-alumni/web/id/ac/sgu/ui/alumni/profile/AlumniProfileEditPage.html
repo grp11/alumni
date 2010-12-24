@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Profile Edit</title>
+</head>
+<body>
+<wicket:extend>
+	<span wicket:id="navigationBorder">
+	<form wicket:id="alumniProfileEditForm">
+	<table width="100%" border="0" cellpadding="4" cellspacing="1">
+		<tr>
+			<td colspan="6">&nbsp;</td>
+		</tr>
+		<tr>
+			<td width="10">&nbsp;</td>
+			<td colspan="4"><strong>User Profile</strong></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<hr />
+			</td>
+		</tr>
+		<tr>
+			<td width="10">&nbsp;</td>
+			<td colspan="4"><strong>Bila anda ingin merubah nama / dll. Klik pada tulisan yang
+			ingin dirubah. Setelah sukses menyimpan, anda diharuskan untuk login ulang.</strong></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+			<div wicket:id="feedbackPanel" class="error" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Nama depan</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <span wicket:id="firstName"
+						class="inline-edit">[[editable firstName]]</span> </label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Nama akhir</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <span wicket:id="lastName"
+						class="inline-edit">[[editable lastName]]</span> </label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Jenis Kelamin</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <span wicket:id="gender"
+						class="inline-edit">[[editable gender]]</span> </label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">DOB</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <span wicket:id="DOB"
+						class="inline-edit">[[editable birthday]]</span> </label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Alamat</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <span wicket:id="address"
+						class="inline-edit">[[editable address]]</span> </label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Negara</td>
+					<td width="2%">:</td>
+					<td width="84%"><label>
+				<select wicket:id="countryName"></select>
+						</label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Kota</td>
+					<td width="2%">:</td>
+					<td width="84%"><label>
+						<select wicket:id="cityName"></select>
+
+						</label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">ZIP</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <span wicket:id="ZIP"
+						class="inline-edit">[[editable ZIP]]</span> </label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Tahun Ajaran</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> 	<select wicket:id="batchYear"></select></label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Departemen</td>
+					<td width="2%">:</td>
+					<td width="84%"><label>
+					<select wicket:id="departmentName"></select></label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Fakultas</td>
+					<td width="2%">:</td>
+					<td width="84%"><label>	<select wicket:id="facultyName"></select> </label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Telephone</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <span wicket:id="telephone"
+						class="inline-edit">[[editable homePhone]]</span> </label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Handphone</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <span wicket:id="handphone"
+						class="inline-edit">[[editable handphone]]</span></label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Email</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <span wicket:id="email"
+						class="inline-edit">[[editable email]]</span></label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td colspan="4"><input type="button" value="Batal"
+				class="button" wicket:id="btnCancel" /> &nbsp; <input type="submit"
+				value="Simpan" class="button" wicket:id="btnSubmit" /></td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+	</form>
+	</span>
+</wicket:extend>
+</body>
+</html>
