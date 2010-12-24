@@ -71,7 +71,7 @@ public class AdminDepartmentCreatePage extends BasePage {
 			tfName = new TextField<String>("departmentName");
 			tfAlias = new TextField<String>("departmentAlias");
 			
-			btnSubmit = new Button("btnSubmit") {
+			btnSubmit = new Button("btnSearch") {
 				
 				@Override
 				public void onSubmit() {
@@ -89,7 +89,7 @@ public class AdminDepartmentCreatePage extends BasePage {
 						}
 
 						if (tfAlias.getModelObject() == null ||
-							!validateAlphabetic(tfAlias.getModelObject()))
+							!validateLetter(tfAlias.getModelObject()))
 						{
 							getWebSession().info("Masukkan alias");
 							status = false;

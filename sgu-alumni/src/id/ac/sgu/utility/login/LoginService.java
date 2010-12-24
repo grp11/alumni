@@ -22,11 +22,13 @@ public class LoginService {
 		String salt = loginDAO.getSalt(username);
 
 
-		logger.info("Username: " + username);
+		/*logger.info("Username: " + username);
 		logger.info("password: " + password);
+		logger.info("salt: " + salt);
+
 		logger.info("HASHED PASSWORD: " + hv.hashValue(password+salt));
 
-
+*/
 		int result = this.loginBL.signin(username, hv.hashValue(password+salt));
 
 		UserBean userBean =  null;
@@ -35,7 +37,8 @@ public class LoginService {
 		switch(result) {
 		case Cons.LOGIN_FAILED:
 			logger.warn("LoginService.findMatchUser.LOGIN_FAILED");
-			break;
+			result = 0;
+			return null;
 		case Cons.LOGIN_SUCCESS:
 			logger.info("LoginService.findMatchUser.LOGIN_SUCCESS");
 			userBean = loginDAO.userBean(username, hv.hashValue(password+salt));

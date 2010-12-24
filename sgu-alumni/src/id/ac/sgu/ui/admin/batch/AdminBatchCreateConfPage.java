@@ -2,8 +2,7 @@ package id.ac.sgu.ui.admin.batch;
 
 import id.ac.sgu.base.BasePage;
 import id.ac.sgu.bean.base.BatchBean;
-import id.ac.sgu.ui.admin.department.AdminDepartmentEditPage;
-import id.ac.sgu.ui.main.MainPage;
+import id.ac.sgu.ui.main.ResultPage;
 import id.ac.sgu.utility.Cons;
 
 import org.apache.wicket.PageParameters;
@@ -16,20 +15,19 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 public class AdminBatchCreateConfPage extends BasePage {
 
+//	private static Logger logger = Logger.getLogger(AdminBatchCreateConfPage.class);
+
 	private BatchBean bean;
 
-	private AdminBatchCreateConfPage() {
-		// Not allowed
-	}
-
-	public AdminBatchCreateConfPage(PageParameters pageParameters) {
-
+	public AdminBatchCreateConfPage(PageParameters pageParameters)
+	{
 		AdminBatchCreateConfForm adminBatchCreateConfForm = new AdminBatchCreateConfForm("adminBatchCreateConfForm", pageParameters);
 		add(initNavigationBorder(adminBatchCreateConfForm));
-
 	}
 
 	private class AdminBatchCreateConfForm extends Form<BatchBean> {
+
+		private static final long serialVersionUID = 1L;
 
 		private String departmentName;
 		private String facultyName;
@@ -43,6 +41,8 @@ public class AdminBatchCreateConfPage extends BasePage {
 		private Button btnConfirm;
 		private Link<Object> btnCancel;
 
+		private FeedbackPanel feedbackPanel;
+
 		public AdminBatchCreateConfForm(String id, PageParameters param)
 		{
 			super(id);
@@ -50,61 +50,71 @@ public class AdminBatchCreateConfPage extends BasePage {
 			bean = (BatchBean) param.get("batch");
 
 			if (bean != null) {
-
-				departmentName = bean.getDepartmentName();
-				facultyName = bean.getFacultyName();
 				newBatchYear = Integer.toString(bean.getBatchYear());
-
 			}
 
 			lblNewBatchYear = new Label("newBatchYear" , newBatchYear);
-			lblDepartmentName = new Label("departmentName" , departmentName);
-			lblFacultyName = new Label("facultyName", facultyName);
 
 			btnConfirm = new Button("btnConfirm") {
 
 				@Override
-				public void onSubmit() {
-
-					try {
+				public void onSubmit()
+				{
+					try
+					{
 						if (alumniService.createNewBatch(bean) == Cons.CREATE_BATCH_FAILURE)
-							throw new Exception("Ops sorry, you cannot add the batch");
-						setResponsePage(MainPage.class);
-					} catch(Exception e) {
+						{
+							getWebSession().info("Ops sorry, you cannot add this batch. It has already been existed in database");
+						}
+						else
+						{
+							PageParameters param = new PageParameters();
+							param.put("again", AdminBatchCreateConfPage.class);
+
+							setResponsePage(new ResultPage(param));
+						}
+					} catch(Exception e)
+					{
 						e.printStackTrace();
-						if (e.getMessage() != null) {
+						if (e.getMessage() != null)
+						{
 							getWebSession().error(e.getMessage());
 						}
 					}
-
 				}
 
 			};
 
-			btnCancel = new Link<Object>("btnCancel") {
-
+			btnCancel = new Link<Object>("btnCancel")
+			{
 				@Override
-				public void onClick() {
-					setResponsePage(AdminBatchCreatePage.class);
+				public void onClick()
+				{
+					PageParameters param = new PageParameters();
+					param.put("batch", bean);
+					setResponsePage(new AdminBatchCreatePage(param));
 				}
 
 			};
 
-			add(new FeedbackPanel("feedbackPanel"));
+			feedbackPanel = new FeedbackPanel("feedbackPanel");
+
 			add(lblNewBatchYear);
-			add(lblDepartmentName);
-			add(lblFacultyName);
 			add(btnCancel);
 			add(btnConfirm);
+			add(feedbackPanel);
+
 		}
 
-
 		@Override
-		protected void delegateSubmit(IFormSubmittingComponent component) {
-			if (component != null) {
+		protected void delegateSubmit(IFormSubmittingComponent component)
+		{
+			if (component != null)
+			{
 				component.onSubmit();
 			}
 		}
+
 	}
 
 }

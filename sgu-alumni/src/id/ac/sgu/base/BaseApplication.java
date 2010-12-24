@@ -21,52 +21,45 @@ import org.apache.wicket.settings.IResourceSettings;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.lang.PackageName;
 
-public class BaseApplication extends AuthenticatedWebApplication {
-	//public static PropertyResourceBundle resourceBundle = (PropertyResourceBundle) ResourceBundle.getBundle("ac.id.sgu.base.BaseApplication");
-
+public class BaseApplication extends AuthenticatedWebApplication
+{
 	private static Logger logger = Logger.getLogger(BaseApplication.class);
 
 	public static PostgresDB dbConnect = new PostgresDB();
 	public LoginService loginService;
 
 	@Override
-	public Class<? extends Page> getHomePage() {
-
+	public Class<? extends Page> getHomePage()
+	{
 		BaseSession session = (BaseSession) Session.get();
 
-		if (session != null)
-			logger.info("Session tidak sama dengan null");
-
-		if (session.isSignedIn())
-			logger.info("session.isSignedIn(): " + session.isSignedIn());
-
-		if (session != null && session.isSignedIn()) {
-
-			logger.info("Go to main page ajah..");
-
+		if (session != null && session.isSignedIn())
+		{
 			return MainPage.class;
-
 		}
-		logger.info("Go to login page lagi aja..");
 
 		return LoginPage.class;
 	}
 
 	@Override
-	protected Class<? extends WebPage> getSignInPageClass() {
-
+	protected Class<? extends WebPage> getSignInPageClass()
+	{
 		return LoginPage.class;
 	}
 
 	@Override
-	protected Class<? extends AuthenticatedWebSession> getWebSessionClass() {
+	protected Class<? extends AuthenticatedWebSession> getWebSessionClass()
+	{
 		return BaseSession.class;
 	}
 
 	@Override
-	public void init() {
+	public void init()
+	{
 		super.init();
+
 		addComponentInstantiationListener(new SpringComponentInjector(this));
+
 		mount("/login", PackageName.forPackage(LoginPage.class.getPackage()));
 		mount("/registration", PackageName.forPackage(CreateNewUserPage.class.getPackage()));
 
@@ -74,35 +67,42 @@ public class BaseApplication extends AuthenticatedWebApplication {
 		resourceSettings.addResourceFolder("id/ac/sgu/base");
 		resourceSettings.addResourceFolder("id/ac/sgu/ui/registration");
 		resourceSettings.addResourceFolder("id/ac/sgu/ui/login");
+
+		resourceSettings.addResourceFolder("id/ac/sgu/ui/alumni");
+		resourceSettings.addResourceFolder("id/ac/sgu/ui/alumni/profile");
+		resourceSettings.addResourceFolder("id/ac/sgu/ui/alumni/comment");
+		resourceSettings.addResourceFolder("id/ac/sgu/ui/alumni/search");
+
 		resourceSettings.addResourceFolder("id/ac/sgu/ui/admin");
 		resourceSettings.addResourceFolder("id/ac/sgu/ui/admin/batch");
 		resourceSettings.addResourceFolder("id/ac/sgu/ui/admin/department");
-		//	resourceSettings.addResourceFolder("id/ac/sgu/ui/admin/user");
+		resourceSettings.addResourceFolder("id/ac/sgu/ui/admin/mapping");
 
 		resourceSettings.addResourceFolder("id/ac/sgu/ui/main");
 		resourceSettings.setResourceStreamLocator(new PathStripperLocator());
 	}
 
-
-	public LoginService getLoginService() {
+	public LoginService getLoginService()
+	{
 		return loginService;
 	}
 
-	public void setLoginService(LoginService loginService) {
+	public void setLoginService(LoginService loginService)
+	{
 		this.loginService = loginService;
 	}
 
 	@Override
-	protected IRequestCycleProcessor newRequestCycleProcessor() {
-
-		return new WebRequestCycleProcessor(){
-
-			protected IRequestCodingStrategy newRequestCodingStrategy(){
+	protected IRequestCycleProcessor newRequestCycleProcessor()
+	{
+		return new WebRequestCycleProcessor()
+		{
+			protected IRequestCodingStrategy newRequestCodingStrategy()
+			{
 				return new CryptedUrlWebRequestCodingStrategy(new WebRequestCodingStrategy());
 			}
 
 		};
-
 	}
 
 }

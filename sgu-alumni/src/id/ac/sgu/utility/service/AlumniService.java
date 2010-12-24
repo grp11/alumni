@@ -4,21 +4,14 @@ import id.ac.sgu.bean.base.BatchBean;
 import id.ac.sgu.bean.base.DepartmentBean;
 import id.ac.sgu.bean.base.FacultyBean;
 import id.ac.sgu.bl.base.BatchBL;
-import id.ac.sgu.bl.base.CityBL;
-import id.ac.sgu.bl.base.CountryBL;
 import id.ac.sgu.bl.base.DepartmentBL;
 import id.ac.sgu.bl.base.FacultyBL;
-import id.ac.sgu.bl.base.UserBL;
 import id.ac.sgu.dao.base.BatchDAO;
-import id.ac.sgu.dao.base.CityDAO;
-import id.ac.sgu.dao.base.CountryDAO;
 import id.ac.sgu.dao.base.DepartmentDAO;
 import id.ac.sgu.dao.base.FacultyDAO;
-import id.ac.sgu.dao.base.UserDAO;
 import id.ac.sgu.utility.Cons;
 import id.ac.sgu.utility.exception.alumni.InvalidDepartmentException;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +32,8 @@ public class AlumniService {
 
 	private static Logger logger = Logger.getLogger(AlumniService.class);
 
-	public int createNewDepartment(DepartmentBean departmentBean) throws InvalidDepartmentException {
-
+	public int createNewDepartment(DepartmentBean departmentBean) throws InvalidDepartmentException
+	{
 		if (departmentBean == null)
 			throw new InvalidDepartmentException("Department bean is null");
 
@@ -53,27 +46,27 @@ public class AlumniService {
 		return departmentBL.createDepartment(departmentBean);
 	}
 
-	public int updateDepartment(DepartmentBean toBeUpdated) throws InvalidDepartmentException {
-
+	public int updateDepartment(DepartmentBean toBeUpdated) throws InvalidDepartmentException
+	{
 		if (toBeUpdated == null)
 			throw new InvalidDepartmentException("ToBeUpdated bean is null");
 
 		return departmentBL.updateDepartment(toBeUpdated);
 	}
 
-	public int createNewBatch(BatchBean batchBean) throws Exception {
-
+	public int createNewBatch(BatchBean batchBean) throws Exception
+	{
 		if (batchBean == null)
 			throw new Exception("Received null on batchBean");
 
-		if (!batchBL.validateBatch(batchBean))
-			throw new Exception("Received invalid validation on batchBean");
+		if (batchDAO.findBy("year", String.valueOf(batchBean.getBatchYear())) != null)
+			return Cons.CREATE_BATCH_FAILURE;
 
 		return batchBL.createBatch(batchBean);
 	}
 
-	public int createGDFMapping(BatchBean batchBean) throws Exception {
-
+	public int createGDFMapping(BatchBean batchBean) throws Exception
+	{
 		String[] val = {Integer.toString(batchBean.getBatchYear()),
 						batchBean.getDepartmentName(),
 						batchBean.getFacultyName()};
@@ -84,59 +77,182 @@ public class AlumniService {
 		return batchBL.createBDFMapping(batchBean);
 	}
 
-	public int deleteBatch(BatchBean batchBean) {
-
+	public int deleteBatch(BatchBean batchBean)
+	{
 		return batchBL.deleteBatch(batchBean);
 	}
 
-	public boolean validateBatch(BatchBean batchBean) {
+	public int deleteDepartment(DepartmentBean departmentBean)
+	{
+		if (departmentDAO.inMapping(departmentBean) != 0)
+			return Cons.DELETE_DEP_FAILURE;
 
-		return validateBatch(batchBean);
+		return departmentBL.deleteDepartment(departmentBean);
 	}
 
-	public int updateBatch(BatchBean batchBean) {
-
-		return batchBL.updateBatch(batchBean);
+	public int deleteFaculty(FacultyBean facultyBean)
+	{
+		return 0;
 	}
 
-	public int updateBDFMapping(BatchBean batchBean) {
-
-		return batchBL.updateBDFMapping(batchBean);
-	}
-
-	public int createBDFMapping(BatchBean batchBean) {
-
+	public int deleteMapping(BatchBean batchBean)
+	{
 		return batchBL.deleteBDFMapping(batchBean);
 	}
 
-	public Map<String, List<String>> getDepartmentMapping() {
-		Map<String, List<String>> modelMaps = new HashMap<String, List<String>>();
+	public boolean isInUserReference(BatchBean batchBean)
+	{
+		if (batchBean == null)
+			return false;
 
-		List<String> departmentList = getDepartmentName();
+		return batchDAO.isReferenced(batchBean);
+	}
 
-		int size = departmentList.size();
-		for (int i = 0; i < size; i++) {
-			String name = departmentList.get(i);
-			modelMaps.put(name, getFacultyName(name));
-			name = null;
+	public boolean validateBatch(BatchBean batchBean)
+	{
+		return validateBatch(batchBean);
+	}
+
+	public int updateBatch(BatchBean batchBean)
+	{
+		return batchBL.updateBatch(batchBean);
+	}
+
+	public int updateBDFMapping(BatchBean batchBean)
+	{
+		return batchBL.updateBDFMapping(batchBean);
+	}
+
+	public int createBDFMapping(BatchBean batchBean)
+	{
+		// Set batch id
+		int batch_id = batchDAO.findBy("year", String.valueOf(batchBean.getBatchYear())).getBatchId();
+		batchBean.setBatchId(batch_id);
+
+		// Set department id
+		int department_id = departmentDAO.findBy("name", batchBean.getDepartmentName()).getDepartmentId();
+		batchBean.setDepartmentId(department_id);
+
+		// set faculty id
+		int faculty_id = facultyDAO.findBy("name", batchBean.getFacultyName()).getFacultyId();
+		batchBean.setFacultyId(faculty_id);
+
+		if (isExistingMapping(batchBean))
+			return Cons.CREATE_BDF_FAILURE;
+
+		return batchBL.createBDFMapping(batchBean);
+	}
+
+	public Map<String, Map<String, List<String>>> getBatchMapping()
+	{
+		Map<String, Map<String, List<String>>> modelMaps = new HashMap<String, Map<String,List<String>>>();
+
+		List<String> batchList = getBatchYear();
+
+		if (null != batchList)
+		{
+			while (!batchList.isEmpty())
+			{
+				String temp = batchList.remove(0);
+				modelMaps.put(temp, getDepartmentMapping(Integer.parseInt(temp)));
+				temp = null;
+			}
 		}
-		departmentList.clear();
 
 		return modelMaps;
 	}
 
-	// For ddc
-	public List<String> getDepartmentName() {
+	public Map<String, List<String>> getDepartmentMapping(int batchYear)
+	{
+		Map<String, List<String>> modelMaps = new HashMap<String, List<String>>();
+
+		List<String> departmentList = getAllDepartmentName(batchYear);
+
+		int size = departmentList.size();
+		for (int i = 0; i < size; i++)
+		{
+			String name = departmentList.get(i);
+			modelMaps.put(name, getFacultyName(batchYear, name, true));
+			name = null;
+		}
+		departmentList.clear();
+		size = 0;
+
+		return modelMaps;
+	}
+
+	public Map<String, List<String>> getDepartmentMapping()
+	{
+		Map<String, List<String>> modelMaps = new HashMap<String, List<String>>();
+
+		List<String> departmentListTemp = getAllDepartmentName(false);
+
+		int size = departmentListTemp.size();
+		for (int i = 0; i < size; i++)
+		{
+			String name = departmentListTemp.get(i);
+			modelMaps.put(name, getFacultyName(0, name, false));
+			name = null;
+		}
+		departmentListTemp.clear();
+
+		return modelMaps;
+	}
+
+	// For ddc batch
+	public List<String> getBatchYear()
+	{
+		List<String> batchList = new Vector<String>();
+
+		List<BatchBean> listTemp = batchDAO.findAllInMapping();
+
+		if (null != listTemp)
+		{
+			while (!listTemp.isEmpty())
+			{
+				BatchBean temp = listTemp.remove(0);
+				batchList.add(String.valueOf(temp.getBatchYear()));
+			}
+			Collections.sort(batchList);
+		}
+
+		return batchList;
+	}
+
+	// For ddc department
+	public List<String> getAllDepartmentName(boolean inMapping)
+	{
 		List<String> departmentList = new Vector<String>();
 
-		List<DepartmentBean> listTemp = departmentDAO.findAll();
+		List<DepartmentBean> listTemp = (!inMapping) ?
+				departmentDAO.findAll() : departmentDAO.findAllInMapping();
 
-		if (null != listTemp) {
-			while (!listTemp.isEmpty()) {
-
+		if (null != listTemp)
+		{
+			while (!listTemp.isEmpty())
+			{
 				DepartmentBean temp = listTemp.remove(0);
 				departmentList.add(temp.getDepartmentName());
+			}
+			Collections.sort(departmentList);
+		}
 
+		return departmentList;
+	}
+
+
+	public List<String> getAllDepartmentName(int batchYear)
+	{
+		List<String> departmentList = new Vector<String>();
+
+		List<DepartmentBean> listTemp = departmentDAO.findInMappingBy(batchYear);
+
+		if (null != listTemp)
+		{
+			while (!listTemp.isEmpty())
+			{
+				DepartmentBean temp = listTemp.remove(0);
+				departmentList.add(temp.getDepartmentName());
 			}
 			Collections.sort(departmentList);
 		}
@@ -145,18 +261,24 @@ public class AlumniService {
 	}
 
 	// For ddc-automation
-	public List<String> getFacultyName(String departmentName) {
+	public List<String> getFacultyName(int batchYear, String departmentName, boolean inMapping)
+	{
 
 		List<String> facultyList = new Vector<String>();
+		List<FacultyBean> listTemp = null;
 
-		List<FacultyBean> listTemp = facultyDAO.findAllInMapping(departmentName);
+		if (inMapping)
+			listTemp = facultyDAO.findAllInMapping(String.valueOf(batchYear), departmentName);
+		else
+			listTemp = facultyDAO.findAllInMapping(departmentName);
 
-		if (null != listTemp) {
-			while (!listTemp.isEmpty()) {
 
+		if (null != listTemp)
+		{
+			while (!listTemp.isEmpty())
+			{
 				FacultyBean temp = listTemp.remove(0);
 				facultyList.add(temp.getFacultyName());
-
 			}
 			Collections.sort(facultyList);
 		}
@@ -164,41 +286,54 @@ public class AlumniService {
 		return facultyList;
 	}
 
-	public List<DepartmentBean> findAllDepartmentsInMapping() {
+	public boolean isExistingMapping(BatchBean batchBean)
+	{
+		return (batchDAO.getBDFMappingId(batchBean) == 0) ? false : true;
+	}
+
+	public List<DepartmentBean> findAllDepartmentsInMapping()
+	{
 
 		return null;
 	}
 
-	public List<FacultyBean> findAllFacultiesInMapping() {
+	public List<FacultyBean> findAllFacultiesInMapping()
+	{
 
 		return null;
 	}
 
-	public List<BatchBean> findAllBatchesInMapping() {
+	public List<BatchBean> findAllBatchesInMapping()
+	{
 
 		return batchDAO.findAllInMapping();
 	}
 
-	public List<BatchBean> findAllBatchesInMapping(int batchYear) {
+	public List<BatchBean> findAllBatchesInMapping(int batchYear)
+	{
 		return batchDAO.findAllInMapping(batchYear);
 	}
 
-	public List<DepartmentBean> findAllDepartments() {
+	public List<DepartmentBean> findAllDepartments()
+	{
 		return departmentDAO.findAll();
 	}
 
-	public List<FacultyBean> findAllFaculties() {
+	public List<FacultyBean> findAllFaculties()
+	{
 		return facultyDAO.findAll();
 	}
 
-	public List<BatchBean> findAllBatches(){
+	public List<BatchBean> findAllBatches()
+	{
 		return batchDAO.findAll();
 	}
 
 	/**
 	 * @return the departmentDAO
 	 */
-	public DepartmentDAO getDepartmentDAO() {
+	public DepartmentDAO getDepartmentDAO()
+	{
 		return departmentDAO;
 	}
 
@@ -278,100 +413,5 @@ public class AlumniService {
 	public void setBatchBL(BatchBL batchBL) {
 		this.batchBL = batchBL;
 	}
-
-/*
-	private CityDAO cityDAO;
-	private CityBL cityBL;
-
-	private CountryDAO countryDAO;
-	private CountryBL countryBL;
-
-	private UserDAO userDAO;
-	private UserBL userBL;
-
-	*//**
-	 * @return the cityDAO
-	 *//*
-	public CityDAO getCityDAO() {
-		return cityDAO;
-	}
-
-	*//**
-	 * @param cityDAO the cityDAO to set
-	 *//*
-	public void setCityDAO(CityDAO cityDAO) {
-		this.cityDAO = cityDAO;
-	}
-
-	*//**
-	 * @return the cityBL
-	 *//*
-	public CityBL getCityBL() {
-		return cityBL;
-	}
-
-	*//**
-	 * @param cityBL the cityBL to set
-	 *//*
-	public void setCityBL(CityBL cityBL) {
-		this.cityBL = cityBL;
-	}
-
-	*//**
-	 * @return the countryDAO
-	 *//*
-	public CountryDAO getCountryDAO() {
-		return countryDAO;
-	}
-
-	*//**
-	 * @param countryDAO the countryDAO to set
-	 *//*
-	public void setCountryDAO(CountryDAO countryDAO) {
-		this.countryDAO = countryDAO;
-	}
-
-	*//**
-	 * @return the countryBL
-	 *//*
-	public CountryBL getCountryBL() {
-		return countryBL;
-	}
-
-	*//**
-	 * @param countryBL the countryBL to set
-	 *//*
-	public void setCountryBL(CountryBL countryBL) {
-		this.countryBL = countryBL;
-	}
-
-	*//**
-	 * @return the userDAO
-	 *//*
-	public UserDAO getUserDAO() {
-		return userDAO;
-	}
-
-	*//**
-	 * @param userDAO the userDAO to set
-	 *//*
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
-	}
-
-	*//**
-	 * @return the userBL
-	 *//*
-	public UserBL getUserBL() {
-		return userBL;
-	}
-
-	*//**
-	 * @param userBL the userBL to set
-	 *//*
-	public void setUserBL(UserBL userBL) {
-		this.userBL = userBL;
-	}*/
-
 
 }

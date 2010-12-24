@@ -136,6 +136,64 @@ public class DepartmentDAO extends BaseDAO<DepartmentBean> {
 		} finally {
 			try {
 				pdb.closeStatement();
+				if (!pdb.isResultSetNull())
+					pdb.closeResultSet();
+				if (res != null)
+					this.closeResultSet();
+				pdb.closeConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return vDepartment;
+	}
+
+	public List<DepartmentBean> findAllInMapping() {
+
+		Vector<DepartmentBean> vDepartment = null;
+
+		DepartmentBean departmentBean = null;
+
+		PostgresDB pdb = new PostgresDB();
+		pdb.getConnection();
+
+		BoxDB boxDB = new BoxDB();
+
+		boxDB.setTable(Cons.BATCH_MAPPING_VIEW);
+
+		boxDB.addColumn("departmentid");
+		boxDB.addColumn("departmentname");
+		boxDB.addColumn("departmentalias");
+
+		try {
+			res = pdb.returnedMultipleQuery(boxDB);
+
+			vDepartment = new Vector<DepartmentBean>(10);
+
+			while (res.next()) {
+
+				departmentBean = new DepartmentBean();
+
+				departmentBean.setDepartmentId(res.getInt("departmentid"));
+
+				departmentBean.setDepartmentName(res.getString("departmentname"));
+
+				departmentBean.setDepartmentAlias(res.getString("departmentalias"));
+
+				vDepartment.addElement(departmentBean);
+
+			}
+
+			vDepartment.trimToSize();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pdb.closeStatement();
 				pdb.closeResultSet();
 				this.closeResultSet();
 				pdb.closeConnection();
@@ -146,6 +204,69 @@ public class DepartmentDAO extends BaseDAO<DepartmentBean> {
 
 		return vDepartment;
 	}
+
+	public List<DepartmentBean> findInMappingBy(int batchYear) {
+
+		if (0 > batchYear || batchYear > 10000)
+			throw new IllegalArgumentException("Invalid range batch year");
+
+		Vector<DepartmentBean> vDepartment = null;
+
+		DepartmentBean departmentBean = null;
+
+		PostgresDB pdb = new PostgresDB();
+		pdb.getConnection();
+
+		BoxDB boxDB = new BoxDB();
+
+		boxDB.setTable(Cons.BATCH_MAPPING_VIEW);
+
+		boxDB.addColumn("departmentid");
+		boxDB.addColumn("departmentname");
+		boxDB.addColumn("departmentalias");
+
+		boxDB.addCondition(0);
+		boxDB.addCondition("batchyear", BoxDB.EQUALS, String.valueOf(batchYear));
+
+		try {
+			res = pdb.returnedMultipleQuery(boxDB);
+
+			vDepartment = new Vector<DepartmentBean>(10);
+
+			while (res.next()) {
+
+				departmentBean = new DepartmentBean();
+
+				departmentBean.setDepartmentId(res.getInt("departmentid"));
+
+				departmentBean.setDepartmentName(res.getString("departmentname"));
+
+				departmentBean.setDepartmentAlias(res.getString("departmentalias"));
+
+				vDepartment.addElement(departmentBean);
+
+			}
+
+			vDepartment.trimToSize();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pdb.closeStatement();
+				pdb.closeResultSet();
+				this.closeResultSet();
+				pdb.closeConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return vDepartment;
+	}
+
 
 	/**
 	 *
@@ -218,8 +339,10 @@ public class DepartmentDAO extends BaseDAO<DepartmentBean> {
 				key = null;
 				val = null;
 				pdb.closeStatement();
-				pdb.closeResultSet();
-				this.closeResultSet();
+				if (!pdb.isResultSetNull())
+					pdb.closeResultSet();
+				if (res != null)
+					this.closeResultSet();
 				pdb.closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -269,8 +392,8 @@ public class DepartmentDAO extends BaseDAO<DepartmentBean> {
 		return result;
 	}
 
-	public int deleteRecent(DepartmentBean departmentBean) {
-
+	public int deleteRecent(DepartmentBean departmentBean)
+	{
 		int result = 0;
 		PostgresDB pdb = new PostgresDB();
 		pdb.getConnection();
@@ -283,6 +406,40 @@ public class DepartmentDAO extends BaseDAO<DepartmentBean> {
 
 		try {
 			result = pdb.delete(boxDB);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				departmentBean.clear();
+				departmentBean = null;
+				pdb.closeStatement();
+				pdb.closeConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+	}
+
+	public int inMapping(DepartmentBean departmentBean)
+	{
+		int result = 0;
+		PostgresDB pdb = new PostgresDB();
+		pdb.getConnection();
+
+		BoxDB boxDB = new BoxDB();
+		boxDB.setTable(Cons.BATCH_MAPPING_VIEW);
+
+		boxDB.addColumn("departmentid");
+
+		boxDB.addCondition(0);
+		boxDB.addCondition("departmentname", BoxDB.EQUALS, departmentBean.getDepartmentName());
+
+		try {
+			result = pdb.querySize(boxDB);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

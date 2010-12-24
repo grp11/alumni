@@ -20,7 +20,7 @@ public class Cons {
 	public final static String SERVER_NAME = databaseResourceBundle.getString("serverName");
 	public final static String SCHEMA = databaseResourceBundle.getString("schema");
 
-	//public final static String DB_METHOD_CONNECT = databaseResourceBundle.getString("methodConnect");
+//	public final static String DB_METHOD_CONNECT = databaseResourceBundle.getString("methodConnect");
 //	public final static int INTIAL_CONNECTION = Integer.parseInt(databaseResourceBundle.getString("initialConnection"));
 //	public final static int MAX_CONNECTION = Integer.parseInt(databaseResourceBundle.getString("maxConnection"));
 
@@ -32,10 +32,11 @@ public class Cons {
 	public final static int IS_EXIST = 1;
 	public final static int NOT_EXIST = -1;
 
-	// Roles
-	public final static int ADMIN = 1;
-	public final static int REGULAR_USER = 2;
-	public final static int ANONYMOUS = 3;
+	// Roles -- DONT CHANGE ---------
+	public final static int ADMIN = 0;
+	public final static int REGULAR_USER = 1;
+	public final static int ANONYMOUS = 2;
+	//---------------------------------------
 
 	// Views
 	public final static String USERS_VIEW = "users_view";
@@ -47,6 +48,8 @@ public class Cons {
 	public final static boolean NOT_MATCH = false;
 
 	public final static String NOW = "now()";
+
+	public final static String ALL_COLUMNS = "*";
 
 	// Login Services
 	public final static int LOGIN_SUCCESS = 11;
@@ -111,6 +114,9 @@ public class Cons {
 	// User BL
 	public final static int CREATE_USR_SUCCESS = 140;
 	public final static int CREATE_USR_FAILURE = 141;
+
+	public final static int UPDATE_USR_SUCCESS = 197;
+	public final static int UPDATE_USR_FAILURE = 198;
 
 	public final static int DELETE_USR_SUCCESS = 143;
 	public final static int DELETE_USR_FAILURE = 144;
