@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Konfirmasi</title>
+</head>
+<body>
+<wicket:extend>
+	<form wicket:id="createNewUserConfForm">
+	<table width="100%" border="0" cellpadding="4" cellspacing="1">
+		<tr>
+			<td width="10">&nbsp;</td>
+			<td colspan="4"><strong>Konfirmasi User Baru</strong></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<hr />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Username</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblUsername" /></td>
+			<td>&nbsp;</td>
+		</tr>
+
+
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Nama depan</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblFirstName" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Nama belakang</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblLastName" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Birthday</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblBirthday" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Batch year</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblBatchYear" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Departemen</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblDepartment" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Faculty</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblFaculty" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Gender</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblGender" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Alamat</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblAddress" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">ZIP</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblZIP" /></td>
+			<td>&nbsp;</td>
+		</tr>
+
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">City</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblCity" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Country</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblCountry" /></td>
+			<td>&nbsp;</td>
+		</tr>
+
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Handphone</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblHandphone" /></td>
+			<td>&nbsp;</td>
+		</tr>
+
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Telephone</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblTelephone" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td width="150">Email</td>
+			<td width="20" align="center">:</td>
+			<td><label wicket:id="lblEmail" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td colspan="4"><input type="button" value="Batal"
+				class="button" wicket:id="btnCancel" /> &nbsp; <input type="submit"
+				value="OK" class="button" wicket:id="btnConfirm" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td colspan="4">
+			<div wicket:id="feedbackPanel"></div>
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+	</form>
+</wicket:extend>
+</body>
+</html>

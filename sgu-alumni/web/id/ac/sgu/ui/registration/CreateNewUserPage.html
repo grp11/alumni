@@ -56,22 +56,22 @@ body {
 
 		<tr>
 			<td>Birthday</td>
-			<td><input type="text" /></td>
+			<td><input type="text" wicket:id="birthday" maxlength="10"/></td>
 		</tr>
 
 		<tr>
 			<td>Address</td>
-			<td><input type="area" maxlength="250" wicket:id="address" /></td>
+			<td><textarea wicket:id="address"> </textarea></td>
 		</tr>
 
 		<tr>
 			<td>Country</td>
-			<td><input type="text" /></td>
+			<td><select wicket:id="countryName"></select></td>
 		</tr>
 
 		<tr>
 			<td>City</td>
-			<td><input type="text" /></td>
+			<td><select wicket:id="cityName"></select></td>
 		</tr>
 
 		<tr>
@@ -81,40 +81,39 @@ body {
 
 		<tr>
 			<td>Batch</td>
-			<td><input type="text" /></td>
+			<td><select wicket:id="batchYear"></select></td>
 		</tr>
-
 
 		<tr>
 			<td>Department</td>
-			<td><input type="text" /></td>
+			<td><select wicket:id="departmentName"></select></td>
 		</tr>
 
 		<tr>
 			<td>Faculty</td>
-			<td><input type="text" /></td>
+			<td><select wicket:id="facultyName"></select></td>
 		</tr>
 
 		<tr>
 			<td>Home phone</td>
-			<td><input type="text" maxlength="15" wicket:id="telephone" /></td>
+			<td><input type="text" maxlength="6" wicket:id="telephone" /></td>
 		</tr>
 
 		<tr>
 			<td>Handphone</td>
-			<td><input type="text" maxlength="15" wicket:id="handphone" />
+			<td><input type="text" maxlength="8" wicket:id="handphone" />
 			</td>
 		</tr>
 
 		<tr>
 			<td>Email</td>
-			<td><input type="text" maxlength="20" wicket:id="email" /></td>
+			<td><input type="text" maxlength="12" wicket:id="email" /></td>
 		</tr>
 
 		<tr>
 			<td><input type="button" value="Cancel" wicket:id="btnCancel" />
 			</td>
-			<td><input type="submit" value="Register" wicket:id="btnSubmit" />
+			<td><input type="submit" value="Register" wicket:id="btnSearch" />
 			</td>
 		</tr>
 		<tr>

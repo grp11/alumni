@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<wicket:head>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Penghapusan Mapping</title>
+
+		<style>
+				div.wicket-aa {
+					font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana;
+					font-size: 12px;
+					background-color: white;
+					border-width: 1px;
+					border-color: #cccccc;
+					border-style: solid;
+					padding: 2px;
+					margin: 1px 0 0 0;
+					text-align:left;
+				}
+				div.wicket-aa ul { list-style:none; padding: 2px; margin:0; }
+				div.wicket-aa ul li.selected { background-color: #FFFF00; padding: 2px; margin:0; }
+			</style>
+
+		</wicket:head>
+	</head>
+	<body>
+		<wicket:extend>
+			<span wicket:id="navigationBorder">
+				<form wicket:id="adminDeleteAlumniUserForm">
+					<table width="100%" border="0" cellpadding="4" cellspacing="1">
+						<tr>
+							<td colspan="6">
+								&nbsp;
+							</td>
+						</tr>
+						<tr>
+							<td width="10">
+								&nbsp;
+							</td>
+							<td colspan="4">
+								<strong>Penghapusan Alumni User</strong>
+							</td>
+							<td>
+								&nbsp;
+							</td>
+						</tr>
+						<tr>
+							<td colspan="6">
+								<hr />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<div wicket:id="feedbackPanel" class="error" />
+							</td>
+						</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Username yang anda masukkan</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <span wicket:id="selectedUsername"></span>
+					</label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Pilih username</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <input type="text" maxlength="26" wicket:id="ac" size="50"/>
+					</label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+						<tr>
+							<td>
+								&nbsp;
+							</td>
+							<td colspan="4">
+								<input type="button" value="Batal" class="button" wicket:id="btnCancel" />
+								&nbsp;
+								<input type="submit" value="Submit" class="button" wicket:id="btnSubmit" />
+							</td>
+							<td>
+								&nbsp;
+							</td>
+						</tr>
+					</table>
+
+					<span wicket:id="paging" > </span>
+					<table border =0 width="80%" cellspacing="0" class="viewTable">
+					<tr>
+						<th>Username</th>
+						<th>Tahun Ajaran</th>
+						<th>Nama Departmen</th>
+						<th>Nama Depan</th>
+						<th>Nama Belakang</th>
+					</tr>
+					<tr wicket:id="userDataView">
+						<td align="center"><label wicket:id="username" /></td>
+						<td align="center"><label wicket:id="batchYear" /></td>
+						<td align="center"><label wicket:id="department" /></td>
+						<td align="center"><label wicket:id="firstName" /></td>
+						<td align="center"><label wicket:id="lastName" /></td>
+					</tr>
+					</table>
+
+				</form> </span>
+		</wicket:extend>
+	</body>
+</html>
