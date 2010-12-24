@@ -51,6 +51,12 @@ public class PostgresDB extends DatabaseResources {
 		statement.close();
 	}
 
+	public boolean isClosedStatement() {
+		if (statement == null)
+			return true;
+		return false;
+	}
+
 	@Override
 	public void closeResultSet() throws SQLException {
 		resultSet.close();

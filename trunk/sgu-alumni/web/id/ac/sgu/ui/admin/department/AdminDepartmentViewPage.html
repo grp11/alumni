@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Pencarian Bedasarkan Departemen</title>
+</head>
+<body>
+<wicket:extend>
+	<span wicket:id="navigationBorder">
+	<form wicket:id="adminDepartmentViewForm">
+	<table width="80%">	<tr>
+			<td colspan="6">&nbsp;</td>
+		</tr>
+		<tr>
+			<td width="10">&nbsp;</td>
+			<td colspan="4"><strong>Pencarian Alumni Bedasarkan Departemen</strong></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<hr />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<div wicket:id="feedbackPanel" class="feedback" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<table width="100%">
+				<tr>
+					<td width="14%">Department</td>
+					<td width="2%">:</td>
+					<td width="84%"><label> <select
+						wicket:id="departmentName" /> </label></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="button" class="button" value="Clear" wicket:id="btnClear" />
+				<input type="submit" class="button" value="Search" wicket:id="btnSearch" />
+			</td>
+		</tr>
+			</table>
+
+		<span wicket:id="paging" > </span>
+		<table border =0 width="80%" cellspacing="0" class="viewTable">
+				<tr>
+					<th>Tahun Ajaran</th>
+					<th>Nama Departmen</th>
+					<th>Nama Depan</th>
+					<th>Nama Belakang</th>
+				</tr>
+				<tr wicket:id="userDataView">
+					<td align="center"><label wicket:id="batchYear" /></td>
+					<td align="center"><label wicket:id="department" /></td>
+					<td align="center"><label wicket:id="firstName" /></td>
+					<td align="center"><label wicket:id="lastName" /></td>
+				</tr>
+		</table>
+	</form>
+	</span>
+</wicket:extend>
+</body>
+</html>

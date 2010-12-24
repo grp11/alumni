@@ -99,6 +99,9 @@
 
 		<property name="userDAO" ref="userDAOBean"/>
 		<property name="userBL" ref="userBLBean"/>
+
+		<property name="commentDAO" ref="commentDAOBean"/>
+		<property name="commentBL" ref="commentBLBean"/>
 	</bean>
 
 	<bean id="BaseApplication" class="id.ac.sgu.base.BaseApplication" scope="singleton" />

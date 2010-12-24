@@ -20,9 +20,19 @@ public class CommentBean implements IBaseBean, Serializable {
 	private int commentLikes;
 	private int commentRetweet;
 
+	// Added 21 Dec 2010
+	private String departmentName;
+	private int departmentId;
+
+	private String facultyName;
+	private int facultyId;
+
+	private int batchYear;
+	private int batchId;
+
 	public CommentBean() {
 	}
-	
+
 	/**
 	 * @return the commentId
 	 */
@@ -163,6 +173,90 @@ public class CommentBean implements IBaseBean, Serializable {
 		this.commentRetweet = commentRetweet;
 	}
 
+	/**
+	 * @return the departmentName
+	 */
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+	/**
+	 * @param departmentName the departmentName to set
+	 */
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+
+	/**
+	 * @return the departmentId
+	 */
+	public int getDepartmentId() {
+		return departmentId;
+	}
+
+	/**
+	 * @param departmentId the departmentId to set
+	 */
+	public void setDepartmentId(int departmentId) {
+		this.departmentId = departmentId;
+	}
+
+	/**
+	 * @return the facultyName
+	 */
+	public String getFacultyName() {
+		return facultyName;
+	}
+
+	/**
+	 * @param facultyName the facultyName to set
+	 */
+	public void setFacultyName(String facultyName) {
+		this.facultyName = facultyName;
+	}
+
+	/**
+	 * @return the facultyId
+	 */
+	public int getFacultyId() {
+		return facultyId;
+	}
+
+	/**
+	 * @param facultyId the facultyId to set
+	 */
+	public void setFacultyId(int facultyId) {
+		this.facultyId = facultyId;
+	}
+
+	/**
+	 * @return the batchYear
+	 */
+	public int getBatchYear() {
+		return batchYear;
+	}
+
+	/**
+	 * @param batchYear the batchYear to set
+	 */
+	public void setBatchYear(int batchYear) {
+		this.batchYear = batchYear;
+	}
+
+	/**
+	 * @return the batchId
+	 */
+	public int getBatchId() {
+		return batchId;
+	}
+
+	/**
+	 * @param batchId the batchId to set
+	 */
+	public void setBatchId(int batchId) {
+		this.batchId = batchId;
+	}
+
 	@Override
 	public void clear() {
 		this.commentId = 0;
@@ -173,6 +267,12 @@ public class CommentBean implements IBaseBean, Serializable {
 		this.from = 0;
 		this.commentLikes = 0;
 		this.commentRetweet = 0;
+		this.departmentName = null;
+		this.facultyName = null;
+		this.departmentId = 0;
+		this.facultyId = 0;
+		this.batchYear = 0;
+		this.batchId = 0;
 	}
-	
+
 }

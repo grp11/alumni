@@ -23,146 +23,145 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
-public class AdminDepartmentEditPage extends BasePage {
-
+public class AdminDepartmentEditPage extends BasePage
+{
 	private static Logger logger = Logger.getLogger(AdminDepartmentEditPage.class);
-	
+
 	private DepartmentBean bean;
-	
-	public AdminDepartmentEditPage() {
-		
+
+	public AdminDepartmentEditPage()
+	{
 		bean = new DepartmentBean();
-		
+
 		CompoundPropertyModel model = new CompoundPropertyModel(bean);
-				
+
 		AdminDepartmentEditForm adminDepartmentEditForm = new AdminDepartmentEditForm("adminDepartmentEditForm", model, null);
 
 		add(initNavigationBorder(adminDepartmentEditForm));
-		
 	}
-	
-	public AdminDepartmentEditPage(PageParameters pageParameters) {
-		
+
+	public AdminDepartmentEditPage(PageParameters pageParameters)
+	{
 		CompoundPropertyModel model = null;
-		
-		if (pageParameters != null) {
-			
+
+		if (pageParameters != null)
+		{
 			bean = (DepartmentBean) pageParameters.get("department");
-			
-			if (bean != null) {
+
+			if (bean != null)
+			{
 				model = new CompoundPropertyModel(bean);
 			}
-						
 		}
-		
+
 		AdminDepartmentEditForm adminDepartmentEditForm = new AdminDepartmentEditForm("adminDepartmentEditForm", model, pageParameters);
 
 		add(initNavigationBorder(adminDepartmentEditForm));
-				
 	}
-	
-	private class AdminDepartmentEditForm extends Form<DepartmentBean>{
-		
+
+	private class AdminDepartmentEditForm extends Form<DepartmentBean>
+	{
 		private DropDownChoice<String> ddcDepartmentName;
 		private TextField<String> tfNewName;
 		private TextField<String> tfNewAlias;
-		private DropDownChoice<String> ddcFaculty;	
+		private DropDownChoice<String> ddcFaculty;
 		private Button btnModify;
 		private Link<Object> btnCancel;
 		private FeedbackPanel feedbackPanel;
 		private DepartmentBean original;
-		
+
 		private Map<String, DepartmentBean> departmentMap;
 		private List<String> departmentList;
 		private Map<String, Integer> facultyMap;
 		private List<String> facultyList;
 
-		public void init() {
+		public void init()
+		{
 			populateDepartment();
 			populateFaculty();
 		}
-		
-		private void populateDepartment() {
-			
+
+		private void populateDepartment()
+		{
 			departmentList = new Vector<String>();
 
 			List<DepartmentBean> listTemp = alumniService.findAllDepartments();
-			
-			departmentList.add(Cons.CHOOSE);
-			
-			if (null != listTemp) {
-				while (!listTemp.isEmpty()) {
 
+			departmentList.add(Cons.CHOOSE);
+
+			if (null != listTemp)
+			{
+				while (!listTemp.isEmpty())
+				{
 					DepartmentBean temp = listTemp.remove(0);
 					departmentList.add(temp.getDepartmentName());
-					
-				}	
+				}
 				Collections.sort(departmentList);
 			}
-			
 		}
-		
+
 		private void populateFaculty() {
 			facultyList = new Vector<String>();
-			
+
 			List<FacultyBean> listTemp = alumniService.findAllFaculties();
-			
+
 			facultyList.add(Cons.CHOOSE);
-			
+
 			if (null != listTemp) {
 				while (!listTemp.isEmpty()) {
 
 					FacultyBean temp = listTemp.remove(0);
 					facultyList.add(temp.getFacultyName());
-					
-					
+
+
 				}
-				
+
 				Collections.sort(facultyList);
 			}
 
 		}
-		
-		public AdminDepartmentEditForm(String id, final IModel<DepartmentBean> model, PageParameters pageParameters) {
+
+		public AdminDepartmentEditForm(String id, final IModel<DepartmentBean> model, PageParameters pageParameters)
+		{
 			super(id, model);
-			
+
 			init();
-			
-			ddcDepartmentName = new DropDownChoice<String>("departmentName", departmentList) {
-				
-				protected CharSequence getDefaultChoice(Object obj) {
+
+			ddcDepartmentName = new DropDownChoice<String>("departmentName", departmentList)
+			{
+				protected CharSequence getDefaultChoice(Object obj)
+				{
 					return Cons.CHOOSE;
-					
 				}
-				
 			};
-			
+
 			tfNewName = new TextField<String>("newName");
-			
+
 			tfNewAlias = new TextField<String>("newAlias");
-			
+
 			ddcFaculty = new DropDownChoice<String>("facultyName", facultyList) {
-				
+
 				protected CharSequence getDefaultChoice(Object obj) {
 					return Cons.CHOOSE;
 				}
-				
+
 			};
-			
+
 			ddcFaculty.setOutputMarkupId(true);
-			
-			btnModify = new Button("btnModify") {
-				
+
+			btnModify = new Button("btnModify")
+			{
 				@Override
-				public void onSubmit() {
-					
+				public void onSubmit()
+				{
 					boolean state = true;
-					
-					if (ddcDepartmentName.getModelObject().equals(Cons.CHOOSE)) {
+
+					if (ddcDepartmentName.getModelObject().equals(Cons.CHOOSE))
+					{
 						getWebSession().info("Choose department name");
 						state = false;
 					}
-					
+
 					if (null == tfNewName.getModelObject() 		||
 						tfNewName.getModelObject().equals("")	||
 						!validateLetterWithSpace(tfNewName.getModelObject()))
@@ -170,48 +169,45 @@ public class AdminDepartmentEditPage extends BasePage {
 						getWebSession().info("Tolong isi nama department yang baru");
 						state = false;
 					}
-									
+
 					if (null == tfNewAlias.getModelObject()		||
 						tfNewAlias.getModelObject().equals("")  ||
-						!validateLetterWithSpace(tfNewAlias.getModelObject())) 
+						!validateLetterWithSpace(tfNewAlias.getModelObject()))
 					{
 						getWebPage().info("Nama alias harus di isi");
 						state = false;
 					}
-					
+
 					if (original == null)
 						original = new DepartmentBean();
-						
-					if (state) {
+
+					if (state)
+					{
 						original.setDepartmentName(ddcDepartmentName.getModelObject());
-						
+
 						PageParameters param = new PageParameters();
 						param.put("department", bean);
-			//			param.put("original", original);
-						
+
 						setResponsePage(new AdminDepartmentEditConfPage(param));
 					}
-					
-					
-					logger.info("button modify is clicked");
-					
+
 				}
-				                        
-				
+
+
 			};
-			
+
 			btnCancel = new Link<Object>("btnCancel"){
-				
+
 				@Override
 				public void onClick() {
-					
+
 					setResponsePage(MainPage.class);
 				}
-				
+
 			};
-			
+
 			feedbackPanel = new FeedbackPanel("feedbackPanel");
-			
+
 			add(ddcDepartmentName);
 			add(tfNewName);
 			add(tfNewAlias);
@@ -219,19 +215,19 @@ public class AdminDepartmentEditPage extends BasePage {
 			add(btnModify);
 			//add(ddcFaculty);
 			add(feedbackPanel);
-			
+
 		}
-		
+
 		@Override
-		protected void delegateSubmit(IFormSubmittingComponent component) {
-			
-			if (component != null) {
-				
+		protected void delegateSubmit(IFormSubmittingComponent component)
+		{
+			if (component != null)
+			{
 				component.onSubmit();
 			}
-			
+
 		}
-			
+
 	}
 
 }

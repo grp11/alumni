@@ -77,7 +77,7 @@ public class LoginDAO extends BaseDAO implements Serializable {
 		boxDB.addColumn("authsalt");
 
 		boxDB.addCondition(0);
-		boxDB.addCondition("username", BoxDB.EQUALS, "admin");
+		boxDB.addCondition("username", BoxDB.EQUALS, username);
 
 		try {
 
@@ -106,8 +106,6 @@ public class LoginDAO extends BaseDAO implements Serializable {
 
 	public boolean checkExistingUsername(String username) {
 		boolean result = false;
-
-		logger.info("LoginDAO.checkExistingUsername -- ENTER --");
 
 		BoxDB boxDB = new BoxDB();
 
@@ -138,15 +136,11 @@ public class LoginDAO extends BaseDAO implements Serializable {
 			}
 		}
 
-		logger.info("LoginDAO.checkExistingUsername-- EXIT --");
-
 		return result;
 	}
 
 	public boolean checkExistingEmail(String emailAddress) {
 		boolean result = false;
-
-		logger.info("LoginDAO.checkExistingEmail -- ENTER --");
 
 		BoxDB boxDB = new BoxDB();
 
@@ -177,8 +171,6 @@ public class LoginDAO extends BaseDAO implements Serializable {
 				e.printStackTrace();
 			}
 		}
-
-		logger.info("LoginDAO.checkExistingEmail -- EXIT --");
 
 		return result;
 	}
@@ -218,7 +210,7 @@ public class LoginDAO extends BaseDAO implements Serializable {
 	//	boxDB.addColumn("authcreatedby");
 		boxDB.addColumn("authmodified");
 	//	boxDB.addColumn("authmodifiedby");
-	//	boxDB.addColumn("profileid");
+		boxDB.addColumn("profileid");
 		boxDB.addColumn("userfirstname");
 		boxDB.addColumn("userlastname");
 		boxDB.addColumn("userdob");
@@ -290,6 +282,8 @@ public class LoginDAO extends BaseDAO implements Serializable {
 
 				userBean.setUsername(username);
 
+				userBean.setProfileId(res.getInt("profileid"));
+
 				userBean.setFirstName(res.getString("userfirstname"));
 				userBean.setLastName(res.getString("userlastname"));
 			//	userBean.setLastLogin(res.getString("authlastlogin"));
@@ -317,10 +311,10 @@ public class LoginDAO extends BaseDAO implements Serializable {
 				userBean.setBatchYear(res.getInt("batchyear"));
 				userBean.setBatchMappingId(res.getInt("batchmappingid"));
 
-				userBean.setGender(res.getInt("usergender"));
+				userBean.setGender(res.getString("usergender"));
 
 				userBean.setAddress(res.getString("useraddress"));
-				userBean.setZIP(res.getInt("userzip"));
+				userBean.setZIP(res.getString("userzip"));
 
 				userBean.setTelephone(res.getString("userphone"));
 				userBean.setHandphone(res.getString("userhandphone"));

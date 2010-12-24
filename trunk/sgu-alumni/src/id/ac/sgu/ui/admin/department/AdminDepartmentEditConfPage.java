@@ -2,7 +2,7 @@ package id.ac.sgu.ui.admin.department;
 
 import id.ac.sgu.base.BasePage;
 import id.ac.sgu.bean.base.DepartmentBean;
-import id.ac.sgu.ui.main.MainPage;
+import id.ac.sgu.ui.main.ResultPage;
 import id.ac.sgu.utility.Cons;
 
 import org.apache.log4j.Logger;
@@ -11,6 +11,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 public class AdminDepartmentEditConfPage extends BasePage {
@@ -18,25 +19,21 @@ public class AdminDepartmentEditConfPage extends BasePage {
 	private static Logger logger = Logger.getLogger(AdminDepartmentEditConfPage.class);
 
 	private DepartmentBean bean;
-	
-	
-	private AdminDepartmentEditConfPage() {
-		// Not allowed
-	}
-	
-	public AdminDepartmentEditConfPage(PageParameters pageParameters) {
+
+	public AdminDepartmentEditConfPage(PageParameters pageParameters)
+	{
 		AdminDepartmentEditConfForm adminDepartmentEditConfForm = new AdminDepartmentEditConfForm("adminDepartmentEditConfForm", pageParameters);
-		add(initNavigationBorder(adminDepartmentEditConfForm));		
+		add(initNavigationBorder(adminDepartmentEditConfForm));
 	}
-	
-	
-	private class AdminDepartmentEditConfForm extends Form<DepartmentBean> {
-		
+
+	private class AdminDepartmentEditConfForm extends Form<DepartmentBean>
+	{
+
 		private Label lblOldDepartmentName;
 		private Label lblOldDepartmentAlias;
 		private Button btnConfirm;
-		private Button btnCancel;
-		
+		private Link<Object> btnCancel;
+
 		private Label lblNewDepartmentName;
 		private Label lblNewDepartmentAlias;
 
@@ -44,13 +41,14 @@ public class AdminDepartmentEditConfPage extends BasePage {
 		private String oldDepartmentAlias;
 		private String newDepartmentName;
 		private String newDepartmentAlias;
-		
-		
-		public AdminDepartmentEditConfForm(String id, final PageParameters pageParameters) {
+
+
+		public AdminDepartmentEditConfForm(String id, final PageParameters pageParameters)
+		{
 			super(id);
-			
+
 			bean = (DepartmentBean) pageParameters.get("department");
-			
+
 			if (bean != null) {
 				newDepartmentAlias = bean.getNewAlias();
 				newDepartmentName = bean.getNewName();
@@ -59,42 +57,49 @@ public class AdminDepartmentEditConfPage extends BasePage {
 			}
 
 			lblNewDepartmentName = new Label("newDepartmentName", newDepartmentName);
-			lblNewDepartmentAlias = new Label("newDepartmentAlias", newDepartmentAlias);			
+			lblNewDepartmentAlias = new Label("newDepartmentAlias", newDepartmentAlias);
 			lblOldDepartmentName = new Label("oldDepartmentName", oldDepartmentName);
 			lblOldDepartmentAlias = new Label("oldDepartmentAlias", oldDepartmentAlias);
-			
+
 			btnConfirm = new Button("btnConfirm") {
-				
+
 				@Override
 				public void onSubmit() {
 					try {
-						
-						if (alumniService.updateDepartment(bean) == Cons.UPDATE_DEP_SUCCESS) {
-//							PageParameters param = new PageParameters();
-//							param.put("", Adn);
-							setResponsePage(MainPage.class);
-						}
 
-					} catch(Exception e) {
+						if (alumniService.updateDepartment(bean) == Cons.UPDATE_DEP_FAILURE)
+							throw new Exception("Sorry, you cannot edit department with wrong values");
+						else
+						{
+							PageParameters param = new PageParameters();
+							param.put("again", AdminDepartmentEditPage.class);
+							setResponsePage(new ResultPage(param));
+						}
+					} catch(Exception e)
+					{
 						e.printStackTrace();
-						if (e.getMessage() != null) {
-							getWebSession().error(e.getMessage());						
-						}	
-					}	
+						if (e.getMessage() != null)
+						{
+							getWebSession().error(e.getMessage());
+						}
+					}
 				}
-				
+
 			};
-			
-			btnCancel = new Button("btnCancel") {
-				
+
+			btnCancel = new Link<Object>("btnCancel")
+			{
+
 				@Override
-				public void onSubmit() {
-//					setResponsePage(new AdminDepartmentEditPage(pageParameters));
-					setResponsePage(AdminDepartmentEditPage.class);
+				public void onClick()
+				{
+					PageParameters param = new PageParameters();
+					param.put("department", bean);
+					setResponsePage(new AdminDepartmentEditPage(param));
 				}
-				
+
 			};
-			
+
 		//	add(lblNewDepartmentAlias);
 			add(lblNewDepartmentName);
 		//	add(lblOldDepartmentAlias);
@@ -102,17 +107,19 @@ public class AdminDepartmentEditConfPage extends BasePage {
 			add(btnConfirm);
 			add(btnCancel);
 			add(new FeedbackPanel("feedbackPanel"));
-			
+
 		}
-		
+
 		@Override
-		protected void delegateSubmit(IFormSubmittingComponent component) {
-			if (component != null) {
+		protected void delegateSubmit(IFormSubmittingComponent component)
+		{
+			if (component != null)
+			{
 				component.onSubmit();
 			}
 		}
-		
+
 	}
-	
-	
+
+
 }

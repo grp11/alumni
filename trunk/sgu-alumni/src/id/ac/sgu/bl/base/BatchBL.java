@@ -65,29 +65,6 @@ public class BatchBL extends BaseBL {
 	}
 
 	/**
-	 * @return
-	 * 		false on failure
-	 * 		true on success
-	 * */
-	public boolean validateBatch(BatchBean batchBean) {
-		boolean result = false;
-
-		if (null == batchBean)
-			return result;
-
-		if ((batchBean.getBatchYear() <= Cons.MAX_BTCH_YEAR)
-		 && (batchBean.getBatchYear() >= Cons.MIN_BTCH_YEAR))
-			result = true;
-
-		if (daoLocator.getBatchDAO().existingBatchId(batchBean) == 0)
-			result = true;
-		else
-			result = false;
-
-		return result;
-	}
-
-	/**
 	 * @param daoLocator the daoLocator to set
 	 */
 	public void setDaoLocator(DAOLocator daoLocator) {
